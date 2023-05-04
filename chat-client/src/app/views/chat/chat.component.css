@@ -1,0 +1,84 @@
+.container {
+  width: 95%;
+  height: calc(100% - 5px);
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content:space-between;
+  background-color: rgb(255, 255, 245);
+}
+
+.messages {
+  width: 100%;
+  height: 100%;
+}
+
+.message {
+  padding: 8px 8px 8px 8px;
+  min-width: calc(100%/3);
+  max-width: calc(80%);
+  width: fit-content;
+  margin: 8px;
+  border-radius:8px;
+}
+
+.message-line {
+  display: flex;
+  flex-direction: row;
+}
+
+.message-line.me {
+  justify-content: flex-end;
+  margin-left: 0px;
+}
+
+.message-line.other {
+  justify-content: flex-start;
+  margin-right: 0px;
+}
+
+.message.other {
+  background-color: rgb(201, 214, 221);
+}
+
+.message.me {
+  background-color: lightgreen;
+}
+
+.user-name {
+  font-weight: bold;
+}
+
+.message-content {
+  word-wrap: break-word;
+}
+
+.form {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: left;
+  width: 100%;
+}
+
+.input {
+  width: calc(100% - 68px);
+}
+
+.button {
+  padding: 0px;
+  margin: 8px;
+}
+
+.app-name {
+  width: calc(100% - 20px);
+}
+
+.exit {
+  color: white;
+  text-decoration: none;
+}
+
+.footer {
+  margin-bottom: 0px;
+}

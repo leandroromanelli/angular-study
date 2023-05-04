@@ -1,0 +1,14 @@
+<h1 matDialogTitle>Welcome to Signal-R Chat</h1>
+<div mat-dialog-content>
+  <p>Please type your name:</p>
+  <mat-form-field>
+    <mat-label>Name</mat-label>
+    <input matInput [(ngModel)]="name">
+  </mat-form-field>
+</div>
+
+<div mat-dialog-actions>
+  <button [mat-dialog-close]="name" color="primary" mat-mini-fab>
+    <mat-icon>check</mat-icon>
+  </button>
+</div>

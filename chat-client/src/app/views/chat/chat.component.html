@@ -1,0 +1,33 @@
+
+<div class="container">
+    <mat-toolbar color="primary">
+        <span class="app-name">Signal-R Chat</span>
+        <a class="exit" href="/">X</a>
+    </mat-toolbar>
+    <div class="messages">
+        <ng-template ngFor let-message [ngForOf]="messages$ | async" let-i="index">
+          <div class="message-line me" *ngIf="message.userName == (username$ | async)">
+            <div class="message me">
+              <div class="user-name me">{{ message.userName }}</div>
+              <div class="message-content">{{ message.messageText }}</div>
+            </div>
+          </div>
+          <div class="message-line other" *ngIf="message.userName != (username$ | async)">
+            <div class="message other">
+              <div class="user-name other">{{ message.userName }}</div>
+              <div class="message-content">{{ message.messageText }}</div>
+            </div>
+          </div>
+        </ng-template>
+    </div>
+    <div class="footer">
+        <form class="form">
+            <mat-form-field class="input">
+              <input matInput placeholder="message" [formControl]="messageControl">
+            </mat-form-field>
+            <button (click)="sendMessage()" color="primary" class="button" mat-mini-fab>
+              <mat-icon>send</mat-icon>
+            </button>
+        </form>
+    </div>
+</div>
