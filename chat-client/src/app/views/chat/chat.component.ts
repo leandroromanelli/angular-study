@@ -1,4 +1,4 @@
-import { loadMessages, setMessages, userLogin } from './../../store/app-state';
+import { loadDummy } from './../../store/app-state';
 import { Component } from '@angular/core';
 import { Message } from 'src/app/models/message';
 import { FormControl } from '@angular/forms';
@@ -8,8 +8,7 @@ import { ChatLoginComponent } from '../chat-login/chat-login.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store } from '@ngrx/store';
 import { IAppState, addMessage } from 'src/app/store/app-state';
-import { Observable, first, map } from 'rxjs';
-import { selectMessages, selectUser } from 'src/app/store/app-selectors';
+import { selectDummy, selectMessages } from 'src/app/store/app-selectors';
 
 @Component({
   selector: 'app-chat',
@@ -18,9 +17,10 @@ import { selectMessages, selectUser } from 'src/app/store/app-selectors';
 })
 export class ChatComponent {
 
-  username$ = this.store.select(selectUser)
+  username:string = ''
 
   messages$ = this.store.select(selectMessages)
+  dummyData$ = this.store.select(selectDummy)
 
   messageControl = new FormControl('');
 
@@ -37,11 +37,12 @@ export class ChatComponent {
   openDialog(){
     let dialogRef = this.dialog.open(ChatLoginComponent, {
       width: '300px',
+      data: this.username,
       disableClose: true
     })
 
     dialogRef.afterClosed().subscribe(result => {
-      this.store.dispatch(userLogin(result))
+      this.username = result
       this.startConnection(result)
       this.openSnackBar(result)
     })
@@ -64,27 +65,23 @@ export class ChatComponent {
     this.connection.start()
       .then(() => {
           this.connection.send('newUser', usr)
-          this.store.dispatch(loadMessages())
+          this.store.dispatch(loadDummy())
       })
   }
 
   openSnackBar(username:string) {
-    this.username$.pipe(first()).subscribe((usr) => {
-      let message = (usr == username ? 'You' : username) + ' joined the chat'
+      let message = (this.username == username ? 'You' : username) + ' joined the chat'
       this.snackBar.open(message, 'close', {
         duration: 1000,
         horizontalPosition: 'center',
         verticalPosition: 'top'
       })
-    })
   }
 
   sendMessage(){
-    this.username$.pipe(first()).subscribe((usr) =>
-      this.connection.send('newMessage', usr, this.messageControl.value)
+      this.connection.send('newMessage', this.username, this.messageControl.value)
         .then(() =>{
           this.messageControl.setValue('')
       })
-    )
   }
 }

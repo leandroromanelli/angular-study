@@ -1,11 +1,38 @@
 .container {
   width: 95%;
-  height: calc(100% - 5px);
+  height: calc(100% - 80px);
+  margin: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content:space-between;
+  background-color: rgb(255, 255, 245);
+}
+
+.dummy {
+  width: 33%;
+  height: 100%;
+  float: left;
+  overflow:scroll;
+}
+
+.table {
+  width: 100%;
+}
+
+.mat-column {
+  width: 25%;
+  text-align: center;
+  margin: 2px;
+}
+
+.chat {
+  width: 66%;
+  height: 100%;
+  float: right;
   margin: auto;
   display: flex;
   flex-direction: column;
   justify-content:space-between;
-  background-color: rgb(255, 255, 245);
 }
 
 .messages {

@@ -1,31 +1,27 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\roman\\source\\repos\\leandroromanelli\\angular-study\\chat-service\\chat-service\\ChatService.csproj": {}
+    "C:\\angular-study-main\\chat-service\\chat-service\\ChatService.csproj": {}
   },
   "projects": {
-    "C:\\Users\\roman\\source\\repos\\leandroromanelli\\angular-study\\chat-service\\chat-service\\ChatService.csproj": {
+    "C:\\angular-study-main\\chat-service\\chat-service\\ChatService.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\roman\\source\\repos\\leandroromanelli\\angular-study\\chat-service\\chat-service\\ChatService.csproj",
+        "projectUniqueName": "C:\\angular-study-main\\chat-service\\chat-service\\ChatService.csproj",
         "projectName": "ChatService",
-        "projectPath": "C:\\Users\\roman\\source\\repos\\leandroromanelli\\angular-study\\chat-service\\chat-service\\ChatService.csproj",
-        "packagesPath": "C:\\Users\\roman\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\roman\\source\\repos\\leandroromanelli\\angular-study\\chat-service\\chat-service\\obj\\",
+        "projectPath": "C:\\angular-study-main\\chat-service\\chat-service\\ChatService.csproj",
+        "packagesPath": "C:\\Users\\Hamilton\\.nuget\\packages\\",
+        "outputPath": "C:\\angular-study-main\\chat-service\\chat-service\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "D:\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\roman\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\Hamilton\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
-          "C:\\Program Files\\dotnet\\library-packs": {},
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -49,6 +45,16 @@
               "version": "[7.0.5, )"
             },
             "Microsoft.EntityFrameworkCore.InMemory": {
+              "target": "Package",
+              "version": "[7.0.5, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[7.0.5, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
               "target": "Package",
               "version": "[7.0.5, )"
             },
@@ -88,7 +94,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.105\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.408\\RuntimeIdentifierGraph.json"
         }
       }
     }

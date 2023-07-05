@@ -1,3 +1,5 @@
+using chat_service.Contexts;
+using chat_service.Hubs;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using System.Text.Json.Serialization;
@@ -28,7 +30,7 @@ namespace chat_service
                     });
             });
 
-            builder.Services.AddDbContext<ChatContext>(options => options.UseInMemoryDatabase("Chat"));
+            builder.Services.AddDbContext<TestContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DummyData")));
 
             var app = builder.Build();
 
