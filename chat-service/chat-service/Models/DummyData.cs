@@ -1,8 +1,6 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
 
-namespace chat_service.Models;
+namespace ChatService.Models;
 
 public partial class DummyData
 {

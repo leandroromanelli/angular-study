@@ -23,12 +23,14 @@ import { appReducer } from './store/app-state';
 import { HttpClientModule } from '@angular/common/http';
 import { EffectsModule } from '@ngrx/effects';
 import { MessageEffectsService } from './store/message-effects.service';
+import { VideoChatComponent } from './components/video-chat/video-chat.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ChatComponent,
-    ChatLoginComponent
+    ChatLoginComponent,
+    VideoChatComponent
   ],
   imports: [
     BrowserModule,

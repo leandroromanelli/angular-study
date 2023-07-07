@@ -1,9 +1,9 @@
-﻿using chat_service.Contexts;
-using chat_service.Models;
+﻿using ChatService.Contexts;
+using ChatService.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace chat_service.Controllers
+namespace ChatService.Controllers
 {
 
     [Produces("application/json")]

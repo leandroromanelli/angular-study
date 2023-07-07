@@ -1,10 +1,10 @@
-using chat_service.Contexts;
-using chat_service.Hubs;
+using ChatService.Contexts;
+using ChatService.Hubs;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using System.Text.Json.Serialization;
 
-namespace chat_service
+namespace ChatService
 {
     public class Program
     {
@@ -30,7 +30,7 @@ namespace chat_service
                     });
             });
 
-            builder.Services.AddDbContext<TestContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DummyData")));
+            builder.Services.AddDbContext<TestContext>(options => options.UseInMemoryDatabase("DummyData"));
 
             var app = builder.Build();
 

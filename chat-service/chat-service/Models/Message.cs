@@ -1,8 +1,8 @@
 using Newtonsoft.Json;
 
-namespace chat_service.Models
+namespace ChatService.Models
 {
-    public class Message
+    public partial class Message
     {
         public Message(string userName, string messageText)
         {

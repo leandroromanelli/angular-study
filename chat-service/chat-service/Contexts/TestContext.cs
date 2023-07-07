@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using chat_service.Models;
+﻿using ChatService.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace chat_service.Contexts;
+namespace ChatService.Contexts;
 
 public partial class TestContext : DbContext
 {
@@ -17,6 +15,8 @@ public partial class TestContext : DbContext
     }
 
     public virtual DbSet<DummyData> DummyData { get; set; }
+
+    public virtual DbSet<Room> Rooms { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
