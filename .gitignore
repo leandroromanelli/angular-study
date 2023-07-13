@@ -1,0 +1,7 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/chat-service/.vs/ChatService
+/chat-service/bin/Debug/net7.0
+/chat-service/obj
