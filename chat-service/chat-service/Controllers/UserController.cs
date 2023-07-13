@@ -18,19 +18,7 @@ namespace ChatService.Controllers
 
             _context.Users.Add(new User()
             {
-                Name = "Test1",
-            });
-            _context.Users.Add(new User()
-            {
-                Name = "Test2",
-            });
-            _context.Users.Add(new User()
-            {
-                Name = "Test3",
-            });
-            _context.Users.Add(new User()
-            {
-                Name = "Test4",
+                Name = "string",
             });
             _context.SaveChanges();
         }

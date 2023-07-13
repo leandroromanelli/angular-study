@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using OpenTokSDK;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ChatService.Models;
@@ -12,9 +13,7 @@ public class Room : BaseModel
     public Room(RoomCreationDto roomCreationDto) : base()
     {
         RoomName = roomCreationDto.RoomName;
-        
-        var users = roomCreationDto.UserNames.Select(un => new User(un));
-        UserRooms = users.Select(u => new UserRoom() { User = u, RoomId = Id }).ToList();
+        UserRooms = roomCreationDto.Users.Select(user => new UserRoom() { User = new User(user.Name), RoomId = Id, Role = (Role)user.Role }).ToList();
     }
 
     [JsonProperty("sessionId")]
@@ -32,6 +31,6 @@ public class Room : BaseModel
     [JsonProperty("users", ItemReferenceLoopHandling = ReferenceLoopHandling.Ignore, ReferenceLoopHandling = ReferenceLoopHandling.Ignore)]
     public List<User> Users
     {
-        get { return UserRooms.Select(r => r.User.AddToken(r.Token)).ToList(); }
+        get { return UserRooms.Select(r => r.User.AddToken(r.Token, r.Role)).ToList(); }
     }
 }

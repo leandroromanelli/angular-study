@@ -17,7 +17,7 @@ namespace ChatService
         [JsonProperty("roomName")]
         public string RoomName { get; set; }
         
-        [JsonProperty("userNames")]
-        public List<string> UserNames { get; set; }
+        [JsonProperty("users")]
+        public List<UserRoomCreationDto> Users { get; set; }
     }
 }

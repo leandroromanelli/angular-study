@@ -1,14 +1,18 @@
-﻿using Newtonsoft.Json;
+﻿using OpenTokSDK;
 
 namespace ChatService.Models
 {
     public class UserRoom :BaseModel
     {
-        public UserRoom(Guid userId, Guid roomId, string token) : base()
+        public UserRoom(Guid userId, Guid roomId, string token, Role role) : base()
         {
             UserId = userId;
             RoomId = roomId;
             Token = token;
+            Role = role;
+
+            User = null;
+            Room = null;
         }
 
         public UserRoom() : base() 
@@ -21,6 +25,7 @@ namespace ChatService.Models
         public Guid RoomId { get; set; }
         public Room Room { get; set; }
 
+        public Role Role { get; set; }
         public string Token { get; set; }
     }
 }

@@ -38,6 +38,7 @@ namespace ChatService.Controllers
             {
                 isInsert = true;
                 dbRoom = room;
+                dbRoom.UserRooms = new List<UserRoom>();
 
                 var session = _opentok.CreateSession();
 
@@ -57,7 +58,7 @@ namespace ChatService.Controllers
                 if (dbRoom.UserRooms.Any(r => r.UserId == dbUser.Id))
                     continue;
 
-                dbRoom.UserRooms.Add(new UserRoom(dbUser.Id, dbRoom.Id, _opentok.GenerateToken(dbRoom.SessionId)));
+                dbRoom.UserRooms.Add(new UserRoom(dbUser.Id, dbRoom.Id, _opentok.GenerateToken(dbRoom.SessionId, user.Role), dbUser.Role));
             }
 
             if (isInsert)

@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using OpenTokSDK;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ChatService.Models
@@ -11,7 +12,7 @@ namespace ChatService.Models
         }
 
         public User(string name) : base()
-        { 
+        {
             UserRooms = new List<UserRoom>();
             Name = name;
         }
@@ -34,9 +35,14 @@ namespace ChatService.Models
             get { return UserRooms.Select(r => r.Room).ToList(); }
         }
 
-        internal User AddToken(string token)
+        [NotMapped]
+        [JsonProperty("role", ItemReferenceLoopHandling = ReferenceLoopHandling.Ignore, ReferenceLoopHandling = ReferenceLoopHandling.Ignore)]
+        public Role Role { get; private set; }
+
+        internal User AddToken(string token, Role role)
         {
             Token = token;
+            Role = role;
 
             return this;
         }
