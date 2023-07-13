@@ -78,11 +78,6 @@ namespace ChatService.Controllers
                                      .Include(r => r.UserRooms)
                                      .FirstOrDefaultAsync(cancellationToken);
 
-            if (room == null)
-            {
-                return await AddRoom(new RoomCreationDto(name), cancellationToken);
-            }
-
             return Content(JsonConvert.SerializeObject(room), "application/json");
         }
     }
