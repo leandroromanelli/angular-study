@@ -15,26 +15,7 @@ public partial class TestContext : DbContext
     }
 
     public virtual DbSet<DummyData> DummyData { get; set; }
-
     public virtual DbSet<Room> Rooms { get; set; }
-
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        modelBuilder.Entity<DummyData>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("PK__DummyDat__3214EC271AD1CD48");
-
-            entity.Property(e => e.Id).HasColumnName("ID");
-            entity.Property(e => e.EmailId)
-                .IsUnicode(false)
-                .HasColumnName("EmailID");
-            entity.Property(e => e.Name).IsUnicode(false);
-            entity.Property(e => e.PhoneNumber).IsUnicode(false);
-            entity.Property(e => e.UpdatedDateTime).HasColumnType("datetime");
-        });
-
-        OnModelCreatingPartial(modelBuilder);
-    }
-
-    partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+    public virtual DbSet<UserRoom> UserRooms { get; set; }
+    public virtual DbSet<User> Users { get; set; }
 }

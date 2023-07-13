@@ -2,12 +2,10 @@ using Newtonsoft.Json;
 
 namespace ChatService.Models
 {
-    public partial class Message
+    public class Message : BaseModel
     {
-        public Message(string userName, string messageText)
+        public Message() : base()
         {
-            UserName = userName;
-            MessageText = messageText;
         }
 
         [JsonProperty("userName")]
@@ -15,5 +13,8 @@ namespace ChatService.Models
 
         [JsonProperty("messageText")]
         public string MessageText { get; set; }
+
+        [JsonProperty("roomId")]
+        public Guid RoomId { get; set; }
     }
 }

@@ -2,16 +2,22 @@
 
 namespace ChatService.Models;
 
-public partial class DummyData
+public class DummyData : BaseModel
 {
-    [JsonIgnore]
-    internal int Id { get; set; }
+    public DummyData() : base()
+    {
 
-    public string Name { get; set; } = null!;
-
-    public string EmailId { get; set; } = null!;
-
-    public string PhoneNumber { get; set; } = null!;
-
+    }
+    
+    [JsonProperty("name")]
+    public string Name { get; set; }
+    
+    [JsonProperty("emailId")]
+    public string EmailId { get; set; }
+    
+    [JsonProperty("phoneNumber")]
+    public string PhoneNumber { get; set; }
+    
+    [JsonProperty("updatedDateTime")]
     public DateTime UpdatedDateTime { get; set; }
 }
