@@ -1,8 +1,8 @@
 ﻿using OpenTokSDK;
 
-namespace ChatService.Models
+namespace ChatService.Entities
 {
-    public class UserRoom :BaseModel
+    public class UserRoom :EntityBase
     {
         public UserRoom(Guid userId, Guid roomId, string token, Role role) : base()
         {

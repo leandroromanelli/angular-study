@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace ChatService
+namespace ChatService.Dtos
 {
     public class RoomCreationDto
     {

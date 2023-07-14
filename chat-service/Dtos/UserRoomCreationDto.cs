@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using OpenTokSDK;
 
-namespace ChatService
+namespace ChatService.Dtos
 {
     public class UserRoomCreationDto
     {

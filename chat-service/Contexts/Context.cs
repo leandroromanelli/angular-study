@@ -1,15 +1,15 @@
-﻿using ChatService.Models;
+﻿using ChatService.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace ChatService.Contexts;
 
-public partial class TestContext : DbContext
+public partial class Context : DbContext
 {
-    public TestContext()
+    public Context()
     {
     }
 
-    public TestContext(DbContextOptions<TestContext> options)
+    public Context(DbContextOptions<Context> options)
         : base(options)
     {
     }

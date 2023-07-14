@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
 
-namespace ChatService.Models;
+namespace ChatService.Entities;
 
-public class DummyData : BaseModel
+public class DummyData : EntityBase
 {
     public DummyData() : base()
     {

@@ -1,11 +1,11 @@
 ﻿using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
 
-namespace ChatService.Models
+namespace ChatService.Entities
 {
-    public class BaseModel
+    public class EntityBase
     {
-        public BaseModel()
+        public EntityBase()
         {
             Id = Guid.NewGuid();
         }

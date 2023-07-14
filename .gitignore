@@ -3,3 +3,4 @@
 /chat-service/obj
 
 /chat-client/node_modules
+/chat-client/.angular

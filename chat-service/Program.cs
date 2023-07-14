@@ -1,5 +1,9 @@
 using ChatService.Contexts;
 using ChatService.Hubs;
+using ChatService.Interfaces.Services;
+using ChatService.Interfaces.UnitiesOfWork;
+using ChatService.Services;
+using ChatService.UnitiesOfWork;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using System.Text.Json.Serialization;
@@ -30,7 +34,14 @@ namespace ChatService
                     });
             });
 
-            builder.Services.AddDbContext<TestContext>(options => options.UseInMemoryDatabase("DummyData"));
+            builder.Services.AddDbContext<Context>(options => options.UseInMemoryDatabase("DummyData"));
+
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+            builder.Services.AddScoped<IDummyDataService, DummyDataService>();
+            builder.Services.AddScoped<IRoomService, RoomService>();
+            builder.Services.AddScoped<IUserRoomService, UserRoomService>();
+            builder.Services.AddScoped<IUserService, UserService>();
 
             var app = builder.Build();
 
