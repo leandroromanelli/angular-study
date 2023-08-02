@@ -26,7 +26,7 @@ namespace ChatService.Controllers
         [HttpPost]
         public async Task<ActionResult<User>> AddUser(UserCreationDto user, CancellationToken cancellationToken)
         {
-            return Content(JsonConvert.SerializeObject(await _userService.Add(new User(user), cancellationToken)), "application/json");
+            return Content(JsonConvert.SerializeObject(await _userService.Add(user.ToEntity(), cancellationToken)), "application/json");
         }
     }
 }

@@ -18,12 +18,6 @@ namespace ChatService.Entities
             Name = name;
         }
 
-        public User(UserCreationDto user)
-        {
-            UserRooms = new List<UserRoom>();
-            Name = user.Name;
-        }
-
         [JsonProperty("name")]
         public string Name { get; set; }
 

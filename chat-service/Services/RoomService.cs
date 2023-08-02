@@ -28,7 +28,7 @@ namespace ChatService.Services
 
                 var session = _openTok.CreateSession();
 
-                room.SessionId = session.Id;
+                dbRoom.SessionId = session.Id;
             }
 
             foreach (var user in room.Users)
@@ -43,26 +43,30 @@ namespace ChatService.Services
                 if (!isInsert && dbRoom.UserRooms.Any(r => r.UserId == dbUser.Id))
                     continue;
 
-                dbUser.UserRooms = new List<UserRoom>();
-
                 var role = (Role)((int)user.Role.Value);
 
-                var userRoom = new UserRoom(dbUser.Id, dbRoom.Id, _openTok.GenerateToken(dbRoom.SessionId, role), role)
-                {
-                    User = null,
-                    Room = null
-                };
+                var userRoom = new UserRoom(dbUser.Id, dbRoom.Id, _openTok.GenerateToken(dbRoom.SessionId, role), role);
 
-                await _unitOfWork.UserRoomRepository.Add(userRoom, cancellationToken);
-                await _unitOfWork.Save(cancellationToken);
+                dbRoom.UserRooms.Add(userRoom);
             }
 
-            dbRoom.UserRooms = new List<UserRoom>();
+            dbRoom.UserRooms = dbRoom.UserRooms.Where(x => !string.IsNullOrWhiteSpace(x.Token)).ToList();
 
             if (isInsert)
                 await _unitOfWork.RoomRepository.Add(dbRoom, cancellationToken);
             else
-                await _unitOfWork.RoomRepository.Update(dbRoom, cancellationToken);
+                foreach (var userRoom in dbRoom.UserRooms)
+                {
+                    var dbUserRoom = await _unitOfWork.UserRoomRepository.Get(userRoom.UserId, userRoom.RoomId, cancellationToken);
+
+                    if (dbUserRoom != null)
+                        continue;
+
+                    userRoom.Room = null;
+                    userRoom.User = null;
+
+                    await _unitOfWork.UserRoomRepository.Add(userRoom, cancellationToken);
+                }
 
             await _unitOfWork.Save(cancellationToken);
 
