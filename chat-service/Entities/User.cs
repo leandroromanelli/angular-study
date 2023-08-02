@@ -1,5 +1,4 @@
-﻿using ChatService.Dtos;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using OpenTokSDK;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -28,7 +27,7 @@ namespace ChatService.Entities
         [JsonProperty("rooms", ItemReferenceLoopHandling = ReferenceLoopHandling.Ignore, ReferenceLoopHandling = ReferenceLoopHandling.Ignore, NullValueHandling = NullValueHandling.Ignore)]
         public List<Room> Rooms
         {
-            get { return UserRooms.Any() ? UserRooms.Select(r => r.Room.AddToken(r.Token, r.Role)).ToList() : null; }
+            get { return UserRooms.Any() ? UserRooms.Select(r => r.Room?.AddToken(r.Token, r.Role)).ToList() : null; }
         }
 
         [NotMapped]
