@@ -1,10 +1,10 @@
-﻿using ChatService.Entities;
+﻿using MeetingService.Entities;
 
-namespace ChatService.Interfaces.Services
+namespace MeetingService.Interfaces.Services
 {
     public interface IRoomService : IService<Room>
     {
-        Task<Room> AddRoom(Room room, CancellationToken cancellationToken);
-        Task<Room> Find(string name, CancellationToken cancellationToken);
+        Task<Room> AddRoom(string tenant, Room room, CancellationToken cancellationToken);
+        Task<Room> Find(string tenant, Guid id, CancellationToken cancellationToken);
     }
 }

@@ -1,14 +1,14 @@
-using ChatService.Contexts;
-using ChatService.Hubs;
-using ChatService.Interfaces.Services;
-using ChatService.Interfaces.UnitiesOfWork;
-using ChatService.Services;
-using ChatService.UnitiesOfWork;
+using MeetingService.Contexts;
+using MeetingService.Interfaces.Services;
+using MeetingService.Interfaces.UnitiesOfWork;
+using MeetingService.Services;
+using MeetingService.UnitiesOfWork;
+using Examroom.SSV3.Microservices.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using System.Text.Json.Serialization;
 
-namespace ChatService
+namespace MeetingService
 {
     public class Program
     {
@@ -29,26 +29,27 @@ namespace ChatService
                 c.SwaggerDoc("v1",
                     new OpenApiInfo()
                     {
-                        Title = "Chat Service",
+                        Title = "Meeting Service",
                         Version = "v1"
                     });
             });
 
-            builder.Services.AddDbContext<Context>(options => options.UseInMemoryDatabase("DummyData"));
+            builder.Services.AddDbContext<Context>(options =>
+               options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+            //builder.Services.AddDbContext<Context>(options => options.UseInMemoryDatabase("DummyData"));
 
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-
-            builder.Services.AddScoped<IDummyDataService, DummyDataService>();
             builder.Services.AddScoped<IRoomService, RoomService>();
-            builder.Services.AddScoped<IUserRoomService, UserRoomService>();
-            builder.Services.AddScoped<IUserService, UserService>();
 
             var app = builder.Build();
 
             app.UseRouting();
 
-            app.UseCors(options => {
-                options.WithOrigins("http://localhost:4200")
+            app.UseCors(options =>
+            {
+                options.AllowAnyOrigin()
+                       .WithOrigins("http://localhost:4200")
                        .AllowAnyHeader()
                        .AllowAnyMethod()
                        .AllowCredentials();
@@ -59,14 +60,14 @@ namespace ChatService
 
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Chat Service");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Meeting Service");
             });
 
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapHub<Chat>("/chat");
+                endpoints.MapHub<NotifyHub>("/notify");
             });
 
             app.Run();

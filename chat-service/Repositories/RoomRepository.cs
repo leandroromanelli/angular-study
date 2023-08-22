@@ -1,9 +1,9 @@
-﻿using ChatService.Contexts;
-using ChatService.Entities;
-using ChatService.Interfaces.Repositories;
+﻿using MeetingService.Contexts;
+using MeetingService.Entities;
+using MeetingService.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
 
-namespace ChatService.Repositories
+namespace MeetingService.Repositories
 {
     public class RoomRepository : Repository<Room>, IRoomRepository
     {
@@ -11,14 +11,12 @@ namespace ChatService.Repositories
         {
         }
 
-        public async Task<Room> GetComplete(string name, CancellationToken cancellationToken)
+        public async Task<Room> GetComplete(string tenant, Guid id, CancellationToken cancellationToken)
         {
 
             return await _context.Rooms
-                                 .Where(r => r.Name == name)
-                                 .Include("UserRooms")
-                                 .Include("UserRooms.User")
-                                 .Include("UserRooms.User.UserRooms")
+                                 .Where(r => r.Tenant == tenant && r.Id == id)
+                                 .Include(r => r.Participants)
                                  .FirstOrDefaultAsync(cancellationToken);
         }
     }

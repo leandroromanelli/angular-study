@@ -1,9 +1,9 @@
-﻿using ChatService.Entities;
-using ChatService.Interfaces.Repositories;
-using ChatService.Interfaces.Services;
-using ChatService.Interfaces.UnitiesOfWork;
+﻿using MeetingService.Entities;
+using MeetingService.Interfaces.Repositories;
+using MeetingService.Interfaces.Services;
+using MeetingService.Interfaces.UnitiesOfWork;
 
-namespace ChatService.Services
+namespace MeetingService.Services
 {
     public abstract class Service<T> : IService<T> where T : EntityBase
     {
@@ -27,12 +27,8 @@ namespace ChatService.Services
 
         public async Task Delete(Guid id, CancellationToken cancellationToken)
         {
-            var obj = await _repository.Get(id, cancellationToken);
-
-            if (obj == null)
-                throw new ArgumentNullException(nameof(obj));
-
-            await _repository.Delete(obj, cancellationToken);
+            var obj = await _repository.Get(id, cancellationToken) ?? throw new ArgumentNullException(nameof(id));
+            _repository.Delete(obj);
             await _unitOfWork.Save(cancellationToken);
         }
 
@@ -41,9 +37,9 @@ namespace ChatService.Services
             var dbObj = await _repository.Get(obj.Id, cancellationToken);
 
             if (dbObj != null)
-                throw new ArgumentNullException(nameof(obj));
+                throw new ArgumentException("entry already exists");
 
-            await _repository.Add(obj, cancellationToken);
+            _repository.Add(obj);
             await _unitOfWork.Save(cancellationToken);
 
             return obj;
@@ -51,14 +47,10 @@ namespace ChatService.Services
 
         public async Task<T> Update(T obj, Guid id, CancellationToken cancellationToken)
         {
-            var dbObj = await _repository.Get(id, cancellationToken);
-
-            if (dbObj == null)
-                throw new ArgumentNullException(nameof(obj));
-
+            _ = await _repository.Get(id, cancellationToken) ?? throw new ArgumentNullException(nameof(id));
             obj.Id = id;
 
-            await _repository.Update(obj, cancellationToken);
+            _repository.Update(obj);
             await _unitOfWork.Save(cancellationToken);
 
             return obj;

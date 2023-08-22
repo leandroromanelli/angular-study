@@ -1,7 +1,6 @@
-﻿using Newtonsoft.Json;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace ChatService.Entities
+namespace MeetingService.Entities
 {
     public class EntityBase
     {
@@ -11,7 +10,8 @@ namespace ChatService.Entities
         }
 
         [Key]
-        [JsonProperty("id")]
         public Guid Id { get; set; }
+
+        public string Tenant { get; set; }
     }
 }

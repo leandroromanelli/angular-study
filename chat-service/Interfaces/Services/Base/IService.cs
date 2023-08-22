@@ -1,6 +1,6 @@
-﻿using ChatService.Entities;
+﻿using MeetingService.Entities;
 
-namespace ChatService.Interfaces.Services
+namespace MeetingService.Interfaces.Services
 {
     public interface IService<T> where T : EntityBase
     {

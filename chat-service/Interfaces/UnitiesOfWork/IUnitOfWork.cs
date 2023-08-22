@@ -1,13 +1,10 @@
-﻿using ChatService.Interfaces.Repositories;
+﻿using MeetingService.Interfaces.Repositories;
 
-namespace ChatService.Interfaces.UnitiesOfWork
+namespace MeetingService.Interfaces.UnitiesOfWork
 {
     public interface IUnitOfWork
     {
-        IDummyDataRepository DummyDataRepository { get; }
-        IUserRepository UserRepository { get; }
         IRoomRepository RoomRepository { get; }
-        IUserRoomRepository UserRoomRepository { get; }
         
         Task Save(CancellationToken cancellationToken);
     }

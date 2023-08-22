@@ -1,7 +1,7 @@
-﻿using ChatService.Entities;
+﻿using MeetingService.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace ChatService.Contexts;
+namespace MeetingService.Contexts;
 
 public partial class Context : DbContext
 {
@@ -14,8 +14,6 @@ public partial class Context : DbContext
     {
     }
 
-    public virtual DbSet<DummyData> DummyData { get; set; }
     public virtual DbSet<Room> Rooms { get; set; }
-    public virtual DbSet<UserRoom> UserRooms { get; set; }
-    public virtual DbSet<User> Users { get; set; }
+    public virtual DbSet<Participant> Users { get; set; }
 }

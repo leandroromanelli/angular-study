@@ -1,9 +1,9 @@
-﻿using ChatService.Contexts;
-using ChatService.Entities;
-using ChatService.Interfaces.Repositories;
+﻿using MeetingService.Contexts;
+using MeetingService.Entities;
+using MeetingService.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
 
-namespace ChatService.Repositories
+namespace MeetingService.Repositories
 {
     public abstract class Repository<T> : IRepository<T> where T : EntityBase
     {
@@ -14,13 +14,13 @@ namespace ChatService.Repositories
             _context = context;
         }
 
-        public async Task<T> Add(T entity, CancellationToken cancellationToken)
+        public T Add(T entity)
         {
             _context.Set<T>().Add(entity);
             return entity;
         }
 
-        public async Task Delete(T entity, CancellationToken cancellationToken)
+        public void Delete(T entity)
         {
             _context.Set<T>().Remove(entity);
         }
@@ -35,7 +35,7 @@ namespace ChatService.Repositories
             return await _context.Set<T>().AsNoTracking().FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
         }
 
-        public async Task<T> Update(T entity, CancellationToken cancellationToken)
+        public T Update(T entity)
         {
             _context.Entry(entity).State = EntityState.Modified;
             _context.Set<T>().Update(entity);

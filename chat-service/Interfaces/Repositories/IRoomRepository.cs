@@ -1,9 +1,9 @@
-﻿using ChatService.Entities;
+﻿using MeetingService.Entities;
 
-namespace ChatService.Interfaces.Repositories
+namespace MeetingService.Interfaces.Repositories
 {
     public interface IRoomRepository : IRepository<Room>
     {
-        Task<Room> GetComplete(string name, CancellationToken cancellation);
+        Task<Room> GetComplete(string tenant, Guid id, CancellationToken cancellation);
     }
 }
