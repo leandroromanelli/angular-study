@@ -15,42 +15,42 @@ namespace MeetingService.Services
             _repository = repository;
         }
 
-        public async Task<IEnumerable<T>> List(CancellationToken cancellationToken)
+        public async Task<IEnumerable<T>> List(string tenant, CancellationToken cancellationToken)
         {
-            return await _repository.List(cancellationToken);
+            return await _repository.List(tenant, cancellationToken);
         }
 
-        public async Task<T> Get(Guid id, CancellationToken cancellationToken)
+        public async Task<T> Get(string tenant, Guid id, CancellationToken cancellationToken)
         {
-            return await _repository.Get(id, cancellationToken);
+            return await _repository.Get(tenant, id, cancellationToken);
         }
 
-        public async Task Delete(Guid id, CancellationToken cancellationToken)
+        public async Task Delete(string tenant, Guid id, CancellationToken cancellationToken)
         {
-            var obj = await _repository.Get(id, cancellationToken) ?? throw new ArgumentNullException(nameof(id));
-            _repository.Delete(obj);
+            var obj = await _repository.Get(tenant, id, cancellationToken) ?? throw new ArgumentNullException(nameof(id));
+            _repository.Delete(tenant, obj);
             await _unitOfWork.Save(cancellationToken);
         }
 
-        public async Task<T> Add(T obj, CancellationToken cancellationToken)
+        public async Task<T> Add(string tenant, T obj, CancellationToken cancellationToken)
         {
-            var dbObj = await _repository.Get(obj.Id, cancellationToken);
+            var dbObj = await _repository.Get(tenant, obj.Id, cancellationToken);
 
             if (dbObj != null)
                 throw new ArgumentException("entry already exists");
 
-            _repository.Add(obj);
+            _repository.Add(tenant, obj);
             await _unitOfWork.Save(cancellationToken);
 
             return obj;
         }
 
-        public async Task<T> Update(T obj, Guid id, CancellationToken cancellationToken)
+        public async Task<T> Update(string tenant, T obj, Guid id, CancellationToken cancellationToken)
         {
-            _ = await _repository.Get(id, cancellationToken) ?? throw new ArgumentNullException(nameof(id));
+            _ = await _repository.Get(tenant, id, cancellationToken) ?? throw new ArgumentNullException(nameof(id));
             obj.Id = id;
 
-            _repository.Update(obj);
+            _repository.Update(tenant, obj);
             await _unitOfWork.Save(cancellationToken);
 
             return obj;

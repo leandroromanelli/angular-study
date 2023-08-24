@@ -16,16 +16,23 @@ namespace MeetingService.Controllers
             _roomService = roomService;
         }
 
-        [HttpPost]
-        public async Task<ActionResult<RoomResponseDto>> AddRoom([FromRoute] string tenant, [FromBody] RoomCreationDto roomCreationDto, CancellationToken cancellationToken)
+        [HttpPost("{scenarioId:guid}")]
+        public async Task<ActionResult<RoomResponseDto>> Add([FromRoute] string tenant, [FromRoute] Guid scenarioId, [FromBody] RoomCreationDto roomCreationDto, CancellationToken cancellationToken)
         {
             return Content(JsonConvert.SerializeObject(new RoomResponseDto(await _roomService.AddRoom(tenant, roomCreationDto.ToEntity(), cancellationToken)), Formatting.Indented), "application/json");
         }
 
         [HttpGet("{referenceId:guid}")]
-        public async Task<ActionResult<RoomResponseDto>> GetRoom([FromRoute] string tenant, [FromRoute] Guid referenceId, CancellationToken cancellationToken)
+        public async Task<ActionResult<RoomResponseDto>> Get([FromRoute] string tenant, [FromRoute] Guid referenceId, CancellationToken cancellationToken)
         {
-            return Content(JsonConvert.SerializeObject(new RoomResponseDto(await _roomService.Find(tenant, referenceId, cancellationToken)), Formatting.Indented), "application/json");
+            return Content(JsonConvert.SerializeObject(new RoomResponseDto(await _roomService.Get(tenant, referenceId, cancellationToken)), Formatting.Indented), "application/json");
+        }
+
+        [HttpGet()]
+        public async Task<ActionResult<RoomResponseDto>> List([FromRoute] string tenant, CancellationToken cancellationToken)
+        {
+            var result = await _roomService.List(tenant, cancellationToken);
+            return Content(JsonConvert.SerializeObject(result.Select(r => new RoomResponseDto(r)), Formatting.Indented), "application/json");
         }
     }
 }

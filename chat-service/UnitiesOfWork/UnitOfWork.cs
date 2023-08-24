@@ -16,6 +16,12 @@ namespace MeetingService.UnitiesOfWork
 
         private IRoomRepository _roomRepository;
         public IRoomRepository RoomRepository { get { _roomRepository ??= new RoomRepository(_context); return _roomRepository; } }
+        
+        private IRoleRepository _roleRepository;
+        public IRoleRepository RoleRepository { get { _roleRepository ??= new RoleRepository(_context); return _roleRepository; } }
+        
+        private IScenarioRepository _scenarioRepository;
+        public IScenarioRepository ScenarioRepository { get { _scenarioRepository ??= new ScenarioRepository(_context); return _scenarioRepository; } }
 
         public async Task Save(CancellationToken cancellationToken)
         {

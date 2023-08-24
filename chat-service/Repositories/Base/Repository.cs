@@ -14,28 +14,30 @@ namespace MeetingService.Repositories
             _context = context;
         }
 
-        public T Add(T entity)
+        public T Add(string tenant, T entity)
         {
+            entity.Tenant = tenant;
             _context.Set<T>().Add(entity);
             return entity;
         }
 
-        public void Delete(T entity)
+        public void Delete(string tenant, T entity)
         {
+            entity.Tenant = tenant;
             _context.Set<T>().Remove(entity);
         }
 
-        public async Task<IEnumerable<T>> List(CancellationToken cancellationToken)
+        public async Task<IEnumerable<T>> List(string tenant, CancellationToken cancellationToken)
         {
-            return await _context.Set<T>().AsNoTracking().ToListAsync(cancellationToken);
+            return await _context.Set<T>().AsNoTracking().Where(t => t.Tenant == tenant).ToListAsync(cancellationToken);
         }
 
-        public async Task<T> Get(Guid id, CancellationToken cancellationToken)
+        public async Task<T> Get(string tenant, Guid id, CancellationToken cancellationToken)
         {
-            return await _context.Set<T>().AsNoTracking().FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+            return await _context.Set<T>().AsNoTracking().Where(t => t.Tenant == tenant && t.Id == id).FirstOrDefaultAsync(cancellationToken);
         }
 
-        public T Update(T entity)
+        public T Update(string tenant, T entity)
         {
             _context.Entry(entity).State = EntityState.Modified;
             _context.Set<T>().Update(entity);

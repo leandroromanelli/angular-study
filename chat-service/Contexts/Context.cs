@@ -14,6 +14,8 @@ public partial class Context : DbContext
     {
     }
 
-    public virtual DbSet<Room> Rooms { get; set; }
-    public virtual DbSet<Participant> Users { get; set; }
+    public virtual DbSet<Room> Room { get; set; }
+    public virtual DbSet<Participant> Participant { get; set; }
+    public virtual DbSet<Role> Role { get; set; }
+    public virtual DbSet<Scenario> Scenario { get; set; }
 }

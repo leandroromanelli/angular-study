@@ -3,24 +3,28 @@ using Newtonsoft.Json;
 
 namespace MeetingService.Dtos
 {
-    public class RoomCreationDto
+    public class RoleCreationDto
     {
         [JsonProperty("name")]
         public string Name { get; set; }
-        
-        [JsonProperty("participants")]
-        public List<ParticipantCreationDto> Participants { get; set; }
 
         [JsonProperty("scenarioId")]
         public Guid ScenarioId { get; set; }
 
-        public Room ToEntity()
+        [JsonProperty("vonage_role")]
+        public OpenTokSDK.Role VonageRole { get; set; }
+        
+        [JsonProperty("json_permissions")]
+        public string Permissions { get; set; }
+
+        public Role ToEntity()
         {
-            return new Room()
+            return new Role()
             {
                 Name = Name,
                 ScenarioId = ScenarioId,
-                Participants = Participants.Select(p => p.ToEntity()).ToList()
+                VonageRole = VonageRole,
+                Permissions = Permissions,
             };
         }
     }

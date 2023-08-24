@@ -4,10 +4,10 @@ namespace MeetingService.Interfaces.Services
 {
     public interface IService<T> where T : EntityBase
     {
-        Task<IEnumerable<T>> List(CancellationToken cancellationToken);
-        Task<T> Get(Guid id, CancellationToken cancellationToken);
-        Task Delete(Guid id, CancellationToken cancellationToken);
-        Task<T> Add(T obj, CancellationToken cancellationToken);
-        Task<T> Update(T obj, Guid id, CancellationToken cancellationToken);
+        Task<IEnumerable<T>> List(string tenant, CancellationToken cancellationToken);
+        Task<T> Get(string tenant, Guid id, CancellationToken cancellationToken);
+        Task Delete(string tenant, Guid id, CancellationToken cancellationToken);
+        Task<T> Add(string tenant, T obj, CancellationToken cancellationToken);
+        Task<T> Update(string tenant, T obj, Guid id, CancellationToken cancellationToken);
     }
 }

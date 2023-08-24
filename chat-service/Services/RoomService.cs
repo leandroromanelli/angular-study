@@ -17,7 +17,7 @@ namespace MeetingService.Services
 
         public async Task<Room> AddRoom(string tenant, Room room, CancellationToken cancellationToken)
         {
-            var dbRoom = await Find(tenant, room.Id, cancellationToken);
+            var dbRoom = await Get(tenant, room.Id, cancellationToken);
 
             var isInsert = false;
 
@@ -33,18 +33,13 @@ namespace MeetingService.Services
             dbRoom = GenerateTokens(dbRoom);
 
             if (isInsert)
-                _unitOfWork.RoomRepository.Add(dbRoom);
+                _unitOfWork.RoomRepository.Add(tenant, dbRoom);
             else
-                _unitOfWork.RoomRepository.Update(dbRoom);
+                _unitOfWork.RoomRepository.Update(tenant, dbRoom);
 
             await _unitOfWork.Save(cancellationToken);
 
-            return await Find(tenant, room.Id, cancellationToken);
-        }
-
-        public async Task<Room> Find(string tenant, Guid id, CancellationToken cancellationToken)
-        {
-            return await _unitOfWork.RoomRepository.GetComplete(tenant, id, cancellationToken);
+            return await Get(tenant, room.Id, cancellationToken);
         }
 
         private Room GenerateTokens(Room room)
@@ -56,7 +51,7 @@ namespace MeetingService.Services
                 if (!string.IsNullOrWhiteSpace(participant.Token))
                     continue;
 
-                participant.Token = _openTok.GenerateToken(room.SessionId, participant.Role);
+                participant.Token = _openTok.GenerateToken(room.SessionId, participant.Role.VonageRole);
             }
 
             return room;

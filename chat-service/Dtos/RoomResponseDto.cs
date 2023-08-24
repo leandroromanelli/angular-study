@@ -3,16 +3,24 @@ using Newtonsoft.Json;
 
 namespace MeetingService.Dtos
 {
-    public class RoomResponseDto : RoomCreationDto
+    public class RoomResponseDto : ResponseDto
     {
-        public RoomResponseDto(Room room) : base()
+        public RoomResponseDto(Room room): base(room.Id)
         {
-            RoomName = room.Name;
-            ReferenceId = room.Id;
-            Participants = room.Participants.Select(p => new ParticipantDto(p)).ToList();
+            Name = room.Name;
+            Scenario = new ScenarioResponseDto(room.Scenario);
+            Participants = room.Participants.Select(p => new ParticipantResponseDto(p)).ToList();
         }
 
-        [JsonProperty("referenceId")]
-        public Guid ReferenceId { get; set; }
+
+        [JsonProperty("name")]
+        public string Name { get; set; }
+
+        [JsonProperty("participants")]
+        public List<ParticipantResponseDto> Participants { get; set; }
+
+        [JsonProperty("scenario")]
+        public ScenarioResponseDto Scenario { get; set; }
+
     }
 }

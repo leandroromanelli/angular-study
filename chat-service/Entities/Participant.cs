@@ -1,6 +1,4 @@
-﻿using OpenTokSDK;
-
-namespace MeetingService.Entities
+﻿namespace MeetingService.Entities
 {
     public class Participant : EntityBase
     {
@@ -11,6 +9,8 @@ namespace MeetingService.Entities
         public string Name { get; set; }
         public string ReferenceId { get; set; }
         public string Token { get; set; }
+
+        public Guid RoleId { get; set; }
         public Role Role { get; set; }
     }
 }
