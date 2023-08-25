@@ -40,7 +40,10 @@ namespace MeetingService
             //builder.Services.AddDbContext<Context>(options => options.UseInMemoryDatabase("DummyData"));
 
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
             builder.Services.AddScoped<IRoomService, RoomService>();
+            builder.Services.AddScoped<IRoleService, RoleService>();
+            builder.Services.AddScoped<IScenarioService, ScenarioService>();
 
             var app = builder.Build();
 

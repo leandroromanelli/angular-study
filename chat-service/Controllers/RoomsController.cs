@@ -19,7 +19,7 @@ namespace MeetingService.Controllers
         [HttpPost("{scenarioId:guid}")]
         public async Task<ActionResult<RoomResponseDto>> Add([FromRoute] string tenant, [FromRoute] Guid scenarioId, [FromBody] RoomCreationDto roomCreationDto, CancellationToken cancellationToken)
         {
-            return Content(JsonConvert.SerializeObject(new RoomResponseDto(await _roomService.AddRoom(tenant, roomCreationDto.ToEntity(), cancellationToken)), Formatting.Indented), "application/json");
+            return Content(JsonConvert.SerializeObject(new RoomResponseDto(await _roomService.AddRoom(tenant, roomCreationDto.ToEntity(scenarioId), cancellationToken)), Formatting.Indented), "application/json");
         }
 
         [HttpGet("{referenceId:guid}")]

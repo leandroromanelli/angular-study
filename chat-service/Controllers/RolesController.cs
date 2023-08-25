@@ -17,9 +17,9 @@ namespace MeetingService.Controllers
         }
 
         [HttpPost("{scenarioId:guid}")]
-        public async Task<ActionResult<RoleResponseDto>> Add([FromRoute] string tenant, [FromBody] RoleCreationDto roleDto, CancellationToken cancellationToken)
+        public async Task<ActionResult<RoleResponseDto>> Add([FromRoute] string tenant, [FromRoute] Guid scenarioId, [FromBody] RoleCreationDto roleDto, CancellationToken cancellationToken)
         {
-            return Content(JsonConvert.SerializeObject(new RoleResponseDto(await _roleService.Add(tenant, roleDto.ToEntity(), cancellationToken)), Formatting.Indented), "application/json");
+            return Content(JsonConvert.SerializeObject(new RoleResponseDto(await _roleService.Add(tenant, roleDto.ToEntity(scenarioId), cancellationToken)), Formatting.Indented), "application/json");
         }
 
         [HttpGet("{scenarioId:guid}")]

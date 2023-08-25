@@ -5,21 +5,15 @@ namespace MeetingService.Dtos
 {
     public class RoomCreationDto
     {
-        [JsonProperty("name")]
         public string Name { get; set; }
-        
-        [JsonProperty("participants")]
         public List<ParticipantCreationDto> Participants { get; set; }
 
-        [JsonProperty("scenarioId")]
-        public Guid ScenarioId { get; set; }
-
-        public Room ToEntity()
+        public Room ToEntity(Guid scenarioId)
         {
             return new Room()
             {
                 Name = Name,
-                ScenarioId = ScenarioId,
+                ScenarioId = scenarioId,
                 Participants = Participants.Select(p => p.ToEntity()).ToList()
             };
         }

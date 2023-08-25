@@ -5,24 +5,16 @@ namespace MeetingService.Dtos
 {
     public class RoleCreationDto
     {
-        [JsonProperty("name")]
         public string Name { get; set; }
-
-        [JsonProperty("scenarioId")]
-        public Guid ScenarioId { get; set; }
-
-        [JsonProperty("vonage_role")]
         public OpenTokSDK.Role VonageRole { get; set; }
-        
-        [JsonProperty("json_permissions")]
         public string Permissions { get; set; }
 
-        public Role ToEntity()
+        public Role ToEntity(Guid scenarioId)
         {
             return new Role()
             {
                 Name = Name,
-                ScenarioId = ScenarioId,
+                ScenarioId = scenarioId,
                 VonageRole = VonageRole,
                 Permissions = Permissions,
             };
