@@ -1,4 +1,5 @@
 ﻿using MeetingService.Dtos;
+using MeetingService.Entities;
 using MeetingService.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -10,29 +11,40 @@ namespace MeetingService.Controllers
     public class RoomsController : ControllerBase
     {
         private readonly IRoomService _roomService;
+        private readonly JsonSerializerSettings _jsonSerializerSettings;
 
-        public RoomsController(IRoomService roomService)
+        public RoomsController(JsonSerializerSettings jsonSerializerSettings, IRoomService roomService)
         {
+            _jsonSerializerSettings = jsonSerializerSettings;
             _roomService = roomService;
         }
 
         [HttpPost("{scenarioId:guid}")]
-        public async Task<ActionResult<RoomResponseDto>> Add([FromRoute] string tenant, [FromRoute] Guid scenarioId, [FromBody] RoomCreationDto roomCreationDto, CancellationToken cancellationToken)
+        public async Task<ActionResult<Room>> Add([FromRoute] string tenant, [FromRoute] Guid scenarioId, [FromBody] RoomCreationDto roomCreationDto, CancellationToken cancellationToken)
         {
-            return Content(JsonConvert.SerializeObject(new RoomResponseDto(await _roomService.AddRoom(tenant, roomCreationDto.ToEntity(scenarioId), cancellationToken)), Formatting.Indented), "application/json");
+            try
+            {
+                await _roomService.Add(tenant, roomCreationDto.ToEntity(scenarioId), cancellationToken);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpGet("{referenceId:guid}")]
-        public async Task<ActionResult<RoomResponseDto>> Get([FromRoute] string tenant, [FromRoute] Guid referenceId, CancellationToken cancellationToken)
+        public async Task<ActionResult<Room>> Get([FromRoute] string tenant, [FromRoute] Guid referenceId, CancellationToken cancellationToken)
         {
-            return Content(JsonConvert.SerializeObject(new RoomResponseDto(await _roomService.Get(tenant, referenceId, cancellationToken)), Formatting.Indented), "application/json");
+            var result = await _roomService.GetComplete(tenant, referenceId, cancellationToken);
+            return Content(JsonConvert.SerializeObject(result, Formatting.Indented, _jsonSerializerSettings), "application/json");
         }
 
         [HttpGet()]
-        public async Task<ActionResult<RoomResponseDto>> List([FromRoute] string tenant, CancellationToken cancellationToken)
+        public async Task<ActionResult<Room>> List([FromRoute] string tenant, CancellationToken cancellationToken)
         {
             var result = await _roomService.List(tenant, cancellationToken);
-            return Content(JsonConvert.SerializeObject(result.Select(r => new RoomResponseDto(r)), Formatting.Indented), "application/json");
+            return Content(JsonConvert.SerializeObject(result, Formatting.Indented, _jsonSerializerSettings), "application/json");
         }
     }
 }

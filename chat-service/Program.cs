@@ -7,6 +7,7 @@ using Examroom.SSV3.Microservices.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace MeetingService
 {
@@ -22,7 +23,7 @@ namespace MeetingService
             builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
             builder.Services.AddControllers().AddJsonOptions(x =>
-                x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+                x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
 
             builder.Services.AddSwaggerGen(c =>
             {
@@ -42,8 +43,13 @@ namespace MeetingService
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             builder.Services.AddScoped<IRoomService, RoomService>();
-            builder.Services.AddScoped<IRoleService, RoleService>();
+            builder.Services.AddScoped<IParticipantRoleService, ParticipantRoleService>();
             builder.Services.AddScoped<IScenarioService, ScenarioService>();
+
+            builder.Services.AddSingleton(new JsonSerializerSettings
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            });
 
             var app = builder.Build();
 

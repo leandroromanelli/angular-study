@@ -13,4 +13,5 @@ public class Room : EntityBase
     public Scenario Scenario { get; set; }
 
     public List<Participant> Participants { get; set; }
+    public List<Message> Messages { get; set; }
 }

@@ -9,9 +9,9 @@ namespace MeetingService.Dtos
         public OpenTokSDK.Role VonageRole { get; set; }
         public string Permissions { get; set; }
 
-        public Role ToEntity(Guid scenarioId)
+        public ParticipantRole ToEntity(Guid scenarioId)
         {
-            return new Role()
+            return new ParticipantRole()
             {
                 Name = Name,
                 ScenarioId = scenarioId,

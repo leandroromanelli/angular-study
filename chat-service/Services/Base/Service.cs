@@ -32,28 +32,15 @@ namespace MeetingService.Services
             await _unitOfWork.Save(cancellationToken);
         }
 
-        public async Task<T> Add(string tenant, T obj, CancellationToken cancellationToken)
-        {
-            var dbObj = await _repository.Get(tenant, obj.Id, cancellationToken);
+        public abstract Task Add(string tenant, T obj, CancellationToken cancellationToken);
 
-            if (dbObj != null)
-                throw new ArgumentException("entry already exists");
-
-            _repository.Add(tenant, obj);
-            await _unitOfWork.Save(cancellationToken);
-
-            return obj;
-        }
-
-        public async Task<T> Update(string tenant, T obj, Guid id, CancellationToken cancellationToken)
+        public async Task Update(string tenant, T obj, Guid id, CancellationToken cancellationToken)
         {
             _ = await _repository.Get(tenant, id, cancellationToken) ?? throw new ArgumentNullException(nameof(id));
             obj.Id = id;
 
             _repository.Update(tenant, obj);
             await _unitOfWork.Save(cancellationToken);
-
-            return obj;
         }
     }
 }

@@ -22,6 +22,36 @@ namespace MeetingService.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("MeetingService.Entities.Message", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Content")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("ParticipantId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("RoomId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Tenant")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ParticipantId");
+
+                    b.HasIndex("RoomId");
+
+                    b.ToTable("Message");
+                });
+
             modelBuilder.Entity("MeetingService.Entities.Participant", b =>
                 {
                     b.Property<Guid>("Id")
@@ -37,7 +67,7 @@ namespace MeetingService.Migrations
                     b.Property<Guid>("RoleId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("RoomId")
+                    b.Property<Guid>("RoomId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Tenant")
@@ -55,7 +85,7 @@ namespace MeetingService.Migrations
                     b.ToTable("Participant");
                 });
 
-            modelBuilder.Entity("MeetingService.Entities.Role", b =>
+            modelBuilder.Entity("MeetingService.Entities.ParticipantRole", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -80,7 +110,7 @@ namespace MeetingService.Migrations
 
                     b.HasIndex("ScenarioId");
 
-                    b.ToTable("Role");
+                    b.ToTable("ParticipantRole");
                 });
 
             modelBuilder.Entity("MeetingService.Entities.Room", b =>
@@ -128,25 +158,48 @@ namespace MeetingService.Migrations
                     b.ToTable("Scenario");
                 });
 
+            modelBuilder.Entity("MeetingService.Entities.Message", b =>
+                {
+                    b.HasOne("MeetingService.Entities.Participant", "Participant")
+                        .WithMany()
+                        .HasForeignKey("ParticipantId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MeetingService.Entities.Room", "Room")
+                        .WithMany("Messages")
+                        .HasForeignKey("RoomId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Participant");
+
+                    b.Navigation("Room");
+                });
+
             modelBuilder.Entity("MeetingService.Entities.Participant", b =>
                 {
-                    b.HasOne("MeetingService.Entities.Role", "Role")
+                    b.HasOne("MeetingService.Entities.ParticipantRole", "Role")
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MeetingService.Entities.Room", null)
+                    b.HasOne("MeetingService.Entities.Room", "Room")
                         .WithMany("Participants")
-                        .HasForeignKey("RoomId");
+                        .HasForeignKey("RoomId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Role");
+
+                    b.Navigation("Room");
                 });
 
-            modelBuilder.Entity("MeetingService.Entities.Role", b =>
+            modelBuilder.Entity("MeetingService.Entities.ParticipantRole", b =>
                 {
                     b.HasOne("MeetingService.Entities.Scenario", "Scenario")
-                        .WithMany()
+                        .WithMany("Roles")
                         .HasForeignKey("ScenarioId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -167,7 +220,14 @@ namespace MeetingService.Migrations
 
             modelBuilder.Entity("MeetingService.Entities.Room", b =>
                 {
+                    b.Navigation("Messages");
+
                     b.Navigation("Participants");
+                });
+
+            modelBuilder.Entity("MeetingService.Entities.Scenario", b =>
+                {
+                    b.Navigation("Roles");
                 });
 #pragma warning restore 612, 618
         }

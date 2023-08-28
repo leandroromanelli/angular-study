@@ -15,7 +15,7 @@ namespace MeetingService.Services
             _openTok = new OpenTok(int.Parse(configuration["ApiKey"]), configuration["ApiSecret"]);
         }
 
-        public async Task<Room> AddRoom(string tenant, Room room, CancellationToken cancellationToken)
+        public override async Task Add(string tenant, Room room, CancellationToken cancellationToken)
         {
             var dbRoom = await Get(tenant, room.Id, cancellationToken);
 
@@ -30,7 +30,7 @@ namespace MeetingService.Services
             dbRoom.SessionId = _openTok.CreateSession().Id;
             dbRoom.Tenant = tenant;
 
-            dbRoom = GenerateTokens(dbRoom);
+            dbRoom = await GenerateTokens(dbRoom, cancellationToken);
 
             if (isInsert)
                 _unitOfWork.RoomRepository.Add(tenant, dbRoom);
@@ -38,23 +38,44 @@ namespace MeetingService.Services
                 _unitOfWork.RoomRepository.Update(tenant, dbRoom);
 
             await _unitOfWork.Save(cancellationToken);
-
-            return await Get(tenant, room.Id, cancellationToken);
         }
 
-        private Room GenerateTokens(Room room)
+        public async Task<Room> GetComplete(string tenant, Guid id, CancellationToken cancellationToken)
+        {
+            return await _unitOfWork.RoomRepository.GetComplete(tenant, id, cancellationToken);
+        }
+
+        private async Task<Room> GenerateTokens(Room room, CancellationToken cancellationToken)
         {
             room ??= new Room();
+
+            var roles = await _unitOfWork.RoleRepository.GetByScenario(room.Tenant, room.ScenarioId, cancellationToken);
 
             foreach (var participant in room.Participants)
             {
                 if (!string.IsNullOrWhiteSpace(participant.Token))
                     continue;
 
-                participant.Token = _openTok.GenerateToken(room.SessionId, participant.Role.VonageRole);
+                participant.Token = _openTok.GenerateToken(room.SessionId, roles.FirstOrDefault(x => x.Id == participant.RoleId).VonageRole);
             }
 
             return room;
+        }
+
+        public async Task CloseSession(string tenant, Guid referenceId, CancellationToken cancellationToken)
+        {
+            var room = await _unitOfWork.RoomRepository.GetComplete(tenant, referenceId, cancellationToken);
+
+            var streams = _openTok.ListStreams(room.SessionId).Select(x => x.Id).ToArray();
+            _openTok.ForceMuteAll(room.SessionId, streams);
+            foreach (var participant in room.Participants)
+            {
+                try
+                {
+                    _openTok.ForceDisconnect(room.SessionId, participant.ConnectionId);
+                }
+                catch { }
+            }
         }
     }
 }
